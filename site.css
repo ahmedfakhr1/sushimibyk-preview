@@ -385,3 +385,6 @@ body.has-basket .tk-bar{display:block}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.bb,.tk-bar{transition:none}}
 .tk-intro[id]{scroll-margin-top:calc(var(--hh) + 16px)}
 .nav a[aria-current]{color:var(--copper)}
+
+/* steady */
+.js .rv,.js .fade,html.js .rv:not(.in),.js .rv.in,.js .fade.in{opacity:1!important;transition:none!important;animation:none!important;transform:none!important}
