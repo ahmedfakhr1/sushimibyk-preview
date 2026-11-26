@@ -388,3 +388,4 @@ body.has-basket .tk-bar{display:block}
 
 /* steady */
 .js .rv,.js .fade,html.js .rv:not(.in),.js .rv.in,.js .fade.in{opacity:1!important;transition:none!important;animation:none!important;transform:none!important}
+@media(max-width:899px){:root{--bb:48px}.bb a,.bb button{flex-direction:row;gap:7px;font-size:.68rem}.bb .ic{width:16px;height:16px}}
