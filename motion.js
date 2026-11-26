@@ -11,11 +11,13 @@
     var covered = cs && cs.display !== 'none' && cs.visibility !== 'hidden' && +cs.opacity > .05 && cov.getBoundingClientRect().height > 0;
     if ((covered || main.getBoundingClientRect().height < innerHeight) && tries++ < 40) { setTimeout(start, 150); return; }
     vh = innerHeight; vw = innerWidth;
+    document.documentElement.style.overflowX = 'clip'; document.body.style.overflowX = 'clip';
     var imgs = [].slice.call(main.querySelectorAll('img')).filter(function (i) { return big(i) && free(i) && clipped(i); });
     var hero = null;
     [].slice.call(main.querySelectorAll('img')).forEach(function (i) { if (!hero && big(i) && free(i) && i.getBoundingClientRect().top < vh * .6) hero = i; });
     // 1. hero: one slow settle inside its own frame, then rests
-    if (hero) { var c = clipped(hero) ? 'inset(0%)' : 'inset(3.3%)'; hero.animate([{ transform: 'scale(1.07)', clipPath: c }, { transform: 'scale(1)', clipPath: 'inset(0%)' }], { duration: 4200, easing: E }); }
+    if (hero && !clipped(hero)) { var pr = hero.parentElement.getBoundingClientRect(), hr = hero.getBoundingClientRect(); if (Math.abs(pr.width - hr.width) < 3 && Math.abs(pr.height - hr.height) < 3) hero.parentElement.style.overflow = 'clip'; else hero = null; }
+    if (hero) hero.animate([{ transform: 'scale(1.07)' }, { transform: 'scale(1)' }], { duration: 4200, easing: E });
     // 2. photos: gentle drift with the scroll, visible from the start
     var drift = imgs.filter(function (i) { return i !== hero; });
     drift.forEach(function (i) { i.style.willChange = 'transform'; i.style.transform = 'scale(1.08)'; });
@@ -27,7 +29,7 @@
     addEventListener('scroll', tick, { passive: true }); addEventListener('resize', tick); upd();
     // 2b. photos without a frame: open gently into place as they arrive (never hidden)
     var open = [].slice.call(main.querySelectorAll('img')).filter(function (i) { return i !== hero && big(i) && free(i) && !clipped(i) && i.getBoundingClientRect().top > vh * .9; });
-    var oo = new IntersectionObserver(function (es) { es.forEach(function (e) { if (!e.isIntersecting) return; oo.unobserve(e.target); e.target.animate([{ clipPath: 'inset(4%)', transform: 'scale(1.06)' }, { clipPath: 'inset(0%)', transform: 'none' }], { duration: 1100, easing: E }); }); }, { rootMargin: '0px 0px -6% 0px' });
+    var oo = new IntersectionObserver(function (es) { es.forEach(function (e) { if (!e.isIntersecting) return; oo.unobserve(e.target); var w = e.target.getBoundingClientRect().width > vw * .85; e.target.animate(w ? [{ clipPath: 'inset(5%)' }, { clipPath: 'inset(0%)' }] : [{ clipPath: 'inset(4%)', transform: 'scale(1.06)' }, { clipPath: 'inset(0%)', transform: 'none' }], { duration: 1100, easing: E }); }); }, { rootMargin: '0px 0px -6% 0px' });
     open.forEach(function (i) { oo.observe(i); });
     // 3. headings: one soft rise per section, early, never in the hero
     var heads = [].slice.call(main.querySelectorAll('section h2')).filter(function (h) { return free(h) && h.getBoundingClientRect().top > vh; });
