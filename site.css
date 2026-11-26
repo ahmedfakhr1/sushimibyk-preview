@@ -119,8 +119,8 @@ dialog::backdrop{background:rgba(14,14,11,.66)}
 .signed.left{text-align:left}
 .js .signed .bar{clip-path:inset(0 100% 0 0);transition:clip-path .9s cubic-bezier(.6,.1,.2,1)}
 .js .signed .k{opacity:0;transition:opacity .5s ease .6s}
-.js .in .signed .bar,.js .signed.in .bar{clip-path:inset(0 0 0 0)}
-.js .in .signed .k,.js .signed.in .k{opacity:1}
+.js .signed.in .bar{clip-path:inset(0 0 0 0)}
+.js .signed.in .k{opacity:1}
 @media(prefers-reduced-motion:reduce){.js .signed .bar{clip-path:none;transition:none}.js .signed .k{opacity:1;transition:none}}
 
 /* ---------- intro veil ---------- */

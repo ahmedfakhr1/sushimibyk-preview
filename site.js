@@ -86,12 +86,12 @@
   $$('[data-pick]').forEach(function (b) { b.addEventListener('click', function () { pick(b.getAttribute('data-pick'), b); }); });
 
   /* ---------- reveal once per section ---------- */
-  var rv = $$('.rv');
+  var rv = $$('.rv, .signed');
   if (rv.length) {
     if ('IntersectionObserver' in window && !reduce) {
       var io = new IntersectionObserver(function (es) {
         es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { rootMargin: '0px 0px 15% 0px', threshold: 0.05 });
+      }, { rootMargin: '0px 0px -12% 0px', threshold: 0 });
       rv.forEach(function (el) { io.observe(el); });
     } else { rv.forEach(function (el) { el.classList.add('in'); }); }
   }
